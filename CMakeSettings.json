@@ -1,80 +1,48 @@
-﻿{
+﻿  {
   "configurations": [
     {
       "buildCommandArgs": "",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "cmakeCommandArgs": "",
-      "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
       "configurationType": "Debug",
       "ctestCommandArgs": "",
       "generator": "Ninja",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "name": "x64-Debug",
-      "variables": [
-        {
-          "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:/Ninja/ninja.exe",
-          "type": "FILEPATH"
-        }
-      ]
+      "name": "x64-Debug"
     },
     {
       "buildCommandArgs": "",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "cmakeCommandArgs": "",
-      "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
       "configurationType": "RelWithDebInfo",
       "ctestCommandArgs": "",
       "generator": "Ninja",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "name": "x64-Release",
-      "variables": [
-        {
-          "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:/Ninja/ninja.exe",
-          "type": "FILEPATH"
-        }
-      ]
+      "name": "x64-Release"
     },
     {
       "buildCommandArgs": "",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "cmakeCommandArgs": "",
-      "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
       "configurationType": "Debug",
       "ctestCommandArgs": "",
       "generator": "Ninja",
       "inheritEnvironments": [ "msvc_x86" ],
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "name": "x86-Debug",
-      "variables": [
-        {
-          "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:/Ninja/ninja.exe",
-          "type": "FILEPATH"
-        }
-      ]
+      "name": "x86-Debug"
     },
     {
       "buildCommandArgs": "",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "cmakeCommandArgs": "",
-      "cmakeExecutable": "C:\\Program Files\\CMake\\bin\\cmake.exe",
       "configurationType": "RelWithDebInfo",
       "ctestCommandArgs": "",
       "generator": "Ninja",
       "inheritEnvironments": [ "msvc_x86" ],
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "name": "x86-Release",
-      "variables": [
-        {
-          "name": "CMAKE_MAKE_PROGRAM",
-          "value": "C:/Ninja/ninja.exe",
-          "type": "FILEPATH"
-        }
-      ]
+      "name": "x86-Release"
     }
   ]
 }

@@ -6,12 +6,12 @@
 
 int main()
 {
-	std::cout << "3P22Lambda v."
+	std::cout << PROJECT_NAME <<" v."
 		<< PROJECT_VERSION << std::endl
-		<< "CRT phosphor decay emulator" << std::endl;
+		<< PROJECT_DESCRIPTION << std::endl;
 
 	// pause
-	std::cout << "Press any key to continue . . . ";
+	std::cout << "Press enter to continue . . . ";
 	std::cin.get();
 	return 0;
 }

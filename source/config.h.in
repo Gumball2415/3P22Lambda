@@ -1,7 +1,0 @@
-// the configured options and settings for Tutorial
-#cmakedefine PROJECT "@PROJECT@"
-#cmakedefine PROJECT_VERSION "@PROJECT_VERSION@"
-#cmakedefine PROJECT_VERSION_MAJOR "@PROJECT_VERSION_MAJOR@"
-#cmakedefine PROJECT_VERSION_MINOR "@PROJECT_VERSION_MINOR@"
-#cmakedefine PROJECT_VERSION_PATCH "@PROJECT_VERSION_PATCH@"
-#cmakedefine PROJECT_VERSION_TWEAK "@PROJECT_VERSION_TWEAK@"

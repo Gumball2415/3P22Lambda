@@ -7,7 +7,4 @@ cmake_minimum_required (VERSION 3.8)
 add_executable (3P22Lambda "main.cpp" "main.h")
 target_include_directories(3P22Lambda PUBLIC ${PROJECT_BINARY_DIR})
 
-# Add project version info
-configure_file("config.h.in" "config.h" NEWLINE_STYLE LF)
-
 # TODO: Add tests and install targets if needed.
