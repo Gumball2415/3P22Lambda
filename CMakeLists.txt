@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.8)
 
-project ("3P22Lambda")
+project (3P22Lambda VERSION 0.0.0.0)
 
 # Include sub-projects.
 add_subdirectory ("source")
