@@ -1,7 +1,4 @@
-﻿// main.cpp : Defines the entry point for the application.
-//
-
-#include "main.h"
+﻿#include "main.h"
 #include "config.h"
 
 int main()
