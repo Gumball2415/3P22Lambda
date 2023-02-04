@@ -139,5 +139,5 @@ void PhosphorFrame::ProcessFrame(std::string file_path, std::string output_direc
 
 double PhosphorFrame::ProcessPixel(double input_pixel, double phosphor_falloff, double previous_pixel)
 {
-	return std::max(input_pixel * phosphor_falloff, previous_pixel);
+	return std::max(previous_pixel * phosphor_falloff, input_pixel);
 }
