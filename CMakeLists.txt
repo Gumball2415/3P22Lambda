@@ -1,13 +1,15 @@
 ﻿# CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.24)
 
 project (3P22Lambda
 	VERSION 0.0.0.0
 	DESCRIPTION "CRT phosphor decay emulator"
 	HOMEPAGE_URL "https://github.com/Gumball2415/3P22Lambda"
 	LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
 
 # add tclap dependency
 include_directories (BEFORE "source/tclap/include")
@@ -16,7 +18,6 @@ include_directories (BEFORE "source/tclap/include")
 configure_file("config.h.in" "config.h" NEWLINE_STYLE LF)
 
 add_executable (3P22Lambda "source/main.cpp" "source/main.h")
-target_compile_options (3P22Lambda INTERFACE cxx_standard_20)
 
 # Add lodepng dependency
 add_subdirectory ("source/lodepng")
