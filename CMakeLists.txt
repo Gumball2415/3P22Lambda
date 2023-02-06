@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.24)
 
 project (3P22Lambda
 	VERSION 0.0.0.0
-	DESCRIPTION "CRT phosphor decay emulator"
+	DESCRIPTION "CRT phosphor decay simulator"
 	HOMEPAGE_URL "https://github.com/Gumball2415/3P22Lambda"
 	LANGUAGES CXX)
 
