@@ -18,6 +18,7 @@ int main(int argc, char* argv[])
 	double fps;
 	double rp22_short, gp22_short, bp22_short;
 	double rp22_long, gp22_long, bp22_long;
+	double p22_long_mix;
 	bool ntsc_1953, multithreaded;
 
 	try {
@@ -63,21 +64,21 @@ int main(int argc, char* argv[])
 			"rshort",
 			"red phosphor short falloff rate",
 			false,
-			(0.2126 / 4.0) + 0.1,
+			(0.2126 / 4.0),
 			"0.0 - 1.0 float value");
 		TCLAP::ValueArg<double> g_short_falloff_arg(
 			"2",
 			"gshort",
 			"green phosphor short falloff rate",
 			false,
-			(0.7152 / 4.0) + 0.1,
+			(0.7152 / 4.0),
 			"0.0 - 1.0 float value");
 		TCLAP::ValueArg<double> b_short_falloff_arg(
 			"3",
 			"bshort",
 			"blue phosphor short falloff rate",
 			false,
-			(0.0722 / 4.0) + 0.1,
+			(0.0722 / 4.0),
 			"0.0 - 1.0 float value");
 
 		TCLAP::ValueArg<double> r_long_falloff_arg(
@@ -102,6 +103,14 @@ int main(int argc, char* argv[])
 			(0.0722 / 10.0) + 0.9,
 			"0.0 - 1.0 float value");
 
+		TCLAP::ValueArg<double> long_falloff_mix(
+			"7",
+			"longmix",
+			"long phosphor falloff mix",
+			false,
+			0.01,
+			"0.0 - 1.0 float value");
+
 		cmd.add(inpath_arg);
 		cmd.add(outpath_arg);
 		cmd.add(fps_arg);
@@ -114,6 +123,7 @@ int main(int argc, char* argv[])
 		cmd.add(r_long_falloff_arg);
 		cmd.add(g_long_falloff_arg);
 		cmd.add(b_long_falloff_arg);
+		cmd.add(long_falloff_mix);
 
 		cmd.parse(argc, argv);
 
@@ -130,6 +140,7 @@ int main(int argc, char* argv[])
 		rp22_long = r_long_falloff_arg.getValue();
 		gp22_long = g_long_falloff_arg.getValue();
 		bp22_long = b_long_falloff_arg.getValue();
+		p22_long_mix = long_falloff_mix.getValue();
 
 		char c;
 		double fpsnum, fpsden;
@@ -149,13 +160,15 @@ int main(int argc, char* argv[])
 			<< "    input folder:               " << inpath << std::endl
 			<< "    output folder:              " << outpath << std::endl
 			<< "    calculated FPS:             " << fps << std::endl
-			<< "    use NTSC 1953 primaries:    " << (ntsc_1953 ? "true" : "false") << std::endl << std::endl
+			<< "    use NTSC 1953 primaries:    " << (ntsc_1953 ? "true" : "false") << std::endl
+			<< "    use multithreading:         " << (multithreaded ? "true" : "false") << std::endl << std::endl
 			<< "    red P22 short falloff:      " << rp22_short << std::endl
 			<< "    green P22 short falloff:    " << gp22_short << std::endl
 			<< "    blue P22 short falloff:     " << bp22_short << std::endl << std::endl
 			<< "    red P22 long falloff:       " << rp22_long << std::endl
 			<< "    green P22 long falloff:     " << gp22_long << std::endl
-			<< "    blue P22 long falloff:      " << bp22_long << std::endl << std::endl;
+			<< "    blue P22 long falloff:      " << bp22_long << std::endl
+			<< "    P22 long falloff mix:       " << p22_long_mix << std::endl << std::endl;
 	}
 	catch (TCLAP::ArgException& e)
 	{
@@ -200,7 +213,7 @@ int main(int argc, char* argv[])
 		<< "    bitdepth per channel:   " << bitdepth << std::endl << std::endl;
 
 
-	PhosphorFrame P22(width, height, fps, rp22_short, gp22_short, bp22_short, rp22_long, gp22_long, bp22_long, ntsc_1953, multithreaded);
+	PhosphorFrame P22(width, height, fps, rp22_short, gp22_short, bp22_short, rp22_long, gp22_long, bp22_long, p22_long_mix, ntsc_1953, multithreaded);
 
 	for (int i = 0; i < framepaths.size(); i++) {
 		std::cout << "\rprogress: " << i + 1 << " / " << framepaths.size()
@@ -213,7 +226,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-PhosphorFrame::PhosphorFrame(uint32_t frame_width, uint32_t frame_height, double fps_delta, double rp22_short, double gp22_short, double bp22_short, double rp22_long, double gp22_long, double bp22_long, bool old_primaries, bool multithreading)
+PhosphorFrame::PhosphorFrame(uint32_t frame_width, uint32_t frame_height, double fps_delta, double rp22_short, double gp22_short, double bp22_short, double rp22_long, double gp22_long, double bp22_long, double p22_long_mix, bool old_primaries, bool multithreading)
 {
 	Width = frame_width;
 	Height = frame_height;
@@ -225,6 +238,8 @@ PhosphorFrame::PhosphorFrame(uint32_t frame_width, uint32_t frame_height, double
 	RP22LongFalloff = rp22_long;
 	GP22LongFalloff = gp22_long;
 	BP22LongFalloff = bp22_long;
+
+	P22LongFalloffMix = p22_long_mix;
 	
 	FPS = fps_delta;
 
@@ -291,7 +306,7 @@ void PhosphorFrame::ProcessFrame(std::string file_path, std::string output_direc
 			threadvectorpixel.emplace_back([&, i]() { ThreadProcessPixels(rawimage, i, i + framechunk - 1); });
 			i += framechunk;
 		}
-		_ASSERT((i * 8) <= rawimage.size());
+		_ASSERT((i * 8) == rawimage.size());
 		for (auto& thread : threadvectorpixel)
 			thread.join();
 	}
@@ -335,18 +350,17 @@ void PhosphorFrame::ThreadProcessPixels(std::vector<uint8_t> &rawimage_buffer, u
 		std::vector<double> pixel_convert_p22 = sRGBToP22(pixel_r, pixel_g, pixel_b);
 
 		// process pixel
-		P22ShortFrameBuffer[i] = ProcessPixel(pixel_convert_p22, P22ShortFrameBuffer[i], RP22ShortFalloff, GP22ShortFalloff, BP22ShortFalloff);
-		P22LongFrameBuffer[i] = ProcessPixel(pixel_convert_p22, P22LongFrameBuffer[i], RP22LongFalloff, GP22LongFalloff, BP22LongFalloff);
+		P22ShortFrameBuffer[i] = ProcessPixel(pixel_convert_p22, P22ShortFrameBuffer[i], RP22ShortFalloff, GP22ShortFalloff, BP22ShortFalloff, FPS);
+		P22LongFrameBuffer[i] = ProcessPixel(pixel_convert_p22, P22LongFrameBuffer[i], RP22LongFalloff, GP22LongFalloff, BP22LongFalloff, FPS);
 
 		double result[3] = {
-			(P22LongFrameBuffer[i][0] * 0.025) + P22ShortFrameBuffer[i][0],
-			(P22LongFrameBuffer[i][1] * 0.025) + P22ShortFrameBuffer[i][1],
-			(P22LongFrameBuffer[i][2] * 0.025) + P22ShortFrameBuffer[i][2],
+			std::max((P22LongFrameBuffer[i][0] * P22LongFalloffMix), P22ShortFrameBuffer[i][0]),
+			std::max((P22LongFrameBuffer[i][1] * P22LongFalloffMix), P22ShortFrameBuffer[i][1]),
+			std::max((P22LongFrameBuffer[i][2] * P22LongFalloffMix), P22ShortFrameBuffer[i][2]),
 		};
 
 		// convert back to sRGB
-		std::vector<uint16_t> pixel_convert_srgb = P22TosRGB(
-			result[0], result[1], result[2]);
+		std::vector<uint16_t> pixel_convert_srgb = P22TosRGB(result[0], result[1], result[2]);
 
 		FrameBufferFinal[buffer_index + 0] = (pixel_convert_srgb[0] & 0xFF00) >> 8;
 		FrameBufferFinal[buffer_index + 1] = (pixel_convert_srgb[0] & 0xFF);
@@ -360,14 +374,14 @@ void PhosphorFrame::ThreadProcessPixels(std::vector<uint8_t> &rawimage_buffer, u
 	}
 }
 
-std::vector<double> PhosphorFrame::ProcessPixel(std::vector<double> &in, std::vector<double> &prev, double &rp22_falloff, double &gp22_falloff, double &bp22_falloff)
+std::vector<double> PhosphorFrame::ProcessPixel(std::vector<double> &in, std::vector<double> &prev, double &rp22_falloff, double &gp22_falloff, double &bp22_falloff, double &fps)
 {
 	// todo: simulate phosphor afterglow entanglement
-
 	std::vector<double> output = {
-		std::max(in[0], (prev[0] * rp22_falloff)),
-		std::max(in[1], (prev[1] * gp22_falloff)),
-		std::max(in[2], (prev[2] * bp22_falloff)),
+		// default falloff values were optimized for 60fps video
+		std::max(in[0], (prev[0] * (rp22_falloff / 60.0 * fps))),
+		std::max(in[1], (prev[1] * (gp22_falloff / 60.0 * fps))),
+		std::max(in[2], (prev[2] * (bp22_falloff / 60.0 * fps))),
 	};
 	return output;
 }
