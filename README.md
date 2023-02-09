@@ -1,10 +1,8 @@
-#3P22Lambda
+# 3P22Lambda
 
 a CRT phosphor decay + afterglow simulator
 
-<video width="512" height="480" controls>
-	<source src="docs/nrom-scroller_decay.mp4" type="video/mp4">
-</video>
+![](docs/nrom-scroller_decay.mp4)
 example processed video taken from [my NROM Scroller demo rom](https://github.com/Gumball2415/nes-scribbles/tree/main/nrom-scroller).
 
 ## About
