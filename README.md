@@ -2,7 +2,8 @@
 
 a CRT phosphor decay + afterglow simulator
 
-![NROM Scroller](docs/nrom-scroller_decay.mp4)
+https://user-images.githubusercontent.com/54422576/218102504-2b0da882-624d-47a1-a2a4-815c49da95ef.mp4
+
 example processed video taken from [my NROM Scroller demo rom](https://github.com/Gumball2415/nes-scribbles/tree/main/nrom-scroller).
 
 ## About
