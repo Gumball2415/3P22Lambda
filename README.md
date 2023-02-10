@@ -2,7 +2,7 @@
 
 a CRT phosphor decay + afterglow simulator
 
-![](docs/nrom-scroller_decay.mp4)
+![NROM Scroller](docs/nrom-scroller_decay.mp4)
 example processed video taken from [my NROM Scroller demo rom](https://github.com/Gumball2415/nes-scribbles/tree/main/nrom-scroller).
 
 ## About
@@ -54,10 +54,9 @@ this software is licensed under the [MIT-0 license](https://opensource.org/licen
 this software uses LodePNG, under the [zlib license](https://opensource.org/licenses/Zlib), and Templatized C++ Command Line Parser Library, under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Thanks to:
-	- Fiskbit, lidnariq, zeta0134, rainwarrior, and jekuthiel for discussion and idea
-	- lidnariq for the short-long afterglow decay model
-	- NewRisingSun for help/advice with color/gamut conversion
-	sorry if i was a bother at times
+ - Fiskbit, lidnariq, zeta0134, rainwarrior, and jekuthiel for discussion and idea
+ - lidnariq for the short-long afterglow decay model
+ - NewRisingSun for help/advice with color/gamut conversion
 
 ## Origin of name
 the name is based on the P22 set of phosphors, used for CRT displays and monitors. 3 x P22 phosphor decay.
