@@ -311,7 +311,7 @@ void PhosphorFrame::ProcessFrame(std::string file_path, std::string output_direc
 			thread.join();
 	}
 	else {
-		ThreadProcessPixels(std::ref(rawimage), 0, rawimage.size());
+		ThreadProcessPixels(std::ref(rawimage), 0, (Width * Height) - 1);
 	}
 
 	// save frame
